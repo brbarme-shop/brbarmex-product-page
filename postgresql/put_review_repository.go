@@ -16,6 +16,10 @@ func (r *repository) PutItem(ctx context.Context, product *product.ProductPage) 
 	return nil
 }
 
+func (r *repository) Exist(ctx context.Context, itemId string) (bool, error) {
+	return false, nil
+}
+
 func NewProductRepository(db *sql.DB) product.ProductRepository {
 	return &repository{db: db}
 }

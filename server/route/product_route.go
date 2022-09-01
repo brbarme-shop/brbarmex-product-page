@@ -32,7 +32,7 @@ func postProduct(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 	}
 
-	err = product.PutNewProductPage(c.Request.Context(), productPageInput, repository)
+	err = product.PutProductPage(c.Request.Context(), productPageInput, repository)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, err.Error())
 		return
