@@ -23,10 +23,12 @@ type ProductPage struct {
 }
 
 type Sku struct {
-	Code     string
-	Detail   string
-	Quantity float64
-	Price    float64
+	Code        string
+	OptionType  int
+	OptionValue string
+	Detail      string
+	Quantity    float64
+	Price       float64
 }
 
 type ProductPageInput struct {
@@ -47,7 +49,6 @@ type SkuInput struct {
 func PutProductPage(ctx context.Context, productPageInput *ProductPageInput, db ProductRepository) error {
 
 	exist, err := db.Exist(ctx, productPageInput.Id)
-
 	if err != nil {
 		return err
 	}
@@ -56,27 +57,24 @@ func PutProductPage(ctx context.Context, productPageInput *ProductPageInput, db 
 		return ErrProductPageAlreadyExist
 	}
 
-	return db.PutItem(ctx, buildModel(productPageInput))
-}
+	var sku = make([]Sku, 0, len(productPageInput.Sku))
 
-func buildModel(dto *ProductPageInput) *ProductPage {
-
-	var sku = make([]Sku, 0, len(dto.Sku))
-
-	for i := range dto.Sku {
+	for i := range productPageInput.Sku {
 		sku = append(sku, Sku{
-			Code:     dto.Sku[i].Code,
-			Detail:   dto.Sku[i].Detail,
-			Quantity: dto.Sku[i].Quantity,
-			Price:    dto.Sku[i].Price,
+			Code:     productPageInput.Sku[i].Code,
+			Detail:   productPageInput.Sku[i].Detail,
+			Quantity: productPageInput.Sku[i].Quantity,
+			Price:    productPageInput.Sku[i].Price,
 		})
 	}
 
-	return &ProductPage{
-		Id:          dto.Id,
-		Title:       dto.Title,
-		Description: dto.Description,
-		Information: dto.Information,
+	model := &ProductPage{
+		Id:          productPageInput.Id,
+		Title:       productPageInput.Title,
+		Description: productPageInput.Description,
+		Information: productPageInput.Information,
 		Skus:        sku,
 	}
+
+	return db.PutItem(ctx, model)
 }

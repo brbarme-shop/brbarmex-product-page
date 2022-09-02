@@ -8,8 +8,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/brbarme-shop/brbarmex-review/config"
-	"github.com/brbarme-shop/brbarmex-review/server/route"
+	"github.com/brbarme-shop/brbarmex-product-page/config"
+	"github.com/brbarme-shop/brbarmex-product-page/server/route"
 	"github.com/gin-gonic/gin"
 )
 

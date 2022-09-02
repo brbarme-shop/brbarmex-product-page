@@ -16,7 +16,7 @@ type routeMap struct {
 var routeMaps = []routeMap{
 	{
 		methodHTTP: http.MethodPost,
-		uri:        "/product",
+		uri:        "/products",
 		action:     postProduct,
 	},
 	{
